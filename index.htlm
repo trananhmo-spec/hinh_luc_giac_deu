@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thám tử không gian: Bí mật Lục giác đều</title>
+    <title>Tham tu khong gian: Bi mat Luc giac deu</title>
     <style>
         :root {
             --primary: #0284c7;
@@ -15,7 +15,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -43,16 +43,10 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            animation: fadeIn 0.5s ease-in-out;
         }
 
         .screen.active {
             display: flex;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 { color: var(--primary); margin-bottom: 10px; }
@@ -68,17 +62,15 @@
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
-            transition: background 0.3s, transform 0.1s;
             box-shadow: 0 4px 6px rgba(2, 132, 199, 0.2);
             margin-top: 15px;
         }
 
         .btn:hover {
             background-color: var(--primary-hover);
-            transform: translateY(-2px);
         }
 
-        /* Màn hình 1: HD5 - Ghép hình */
+        /* Màn hình 1 */
         .puzzle-area {
             display: flex;
             justify-content: center;
@@ -101,11 +93,11 @@
         .piece {
             background: #bae6fd;
             border: 2px solid #0284c7;
-            padding: 10px 15px;
+            padding: 10px;
             border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.2s;
+            font-size: 0.9rem;
         }
         .piece:hover { background: #7dd3fc; }
         .piece.used { opacity: 0.3; pointer-events: none; }
@@ -119,10 +111,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
         }
 
-        /* Màn hình 2: HD6 - Phòng khám phá lục giác đều */
+        /* Màn hình 2 */
         .lab-container {
             display: flex;
             width: 100%;
@@ -133,7 +124,7 @@
         .hex-workspace {
             flex: 1;
             position: relative;
-            height: 300px;
+            height: 280px;
             background: #f8fafc;
             border: 2px solid #e2e8f0;
             border-radius: 12px;
@@ -144,14 +135,15 @@
 
         .hex-shape {
             width: 140px;
-            height: 160px;
+            height: 140px;
             background: rgba(2, 132, 199, 0.08);
             border: 3px solid var(--primary);
             position: relative;
-            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
             display: flex;
             justify-content: center;
             align-items: center;
+            font-weight: bold;
+            color: #0284c7;
         }
 
         .diagonal-line {
@@ -159,11 +151,10 @@
             background: #f59e0b;
             display: none;
         }
-        /* 3 đường chéo chính */
-        #d-ad { width: 3px; height: 160px; top: 0; left: 50%; transform: translateX(-50%); }
-        #d-be { width: 140px; height: 3px; top: 50%; left: 0; transform: translateY(-50%); }
-        #d-cf { width: 160px; height: 3px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(60deg); }
-        #d-cf2 { width: 160px; height: 3px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-60deg); }
+        #d-ad { width: 3px; height: 140px; top: 0; left: 50%; }
+        #d-be { width: 140px; height: 3px; top: 50%; left: 0; }
+        #d-cf { width: 140px; height: 3px; top: 50%; left: 0; transform: rotate(60deg); }
+        #d-cf2 { width: 140px; height: 3px; top: 50%; left: 0; transform: rotate(-60deg); }
 
         .controls-panel {
             flex: 1;
@@ -184,11 +175,8 @@
         .observation-box li { margin-bottom: 8px; font-size: 0.95rem; color: #166534; }
 
         .tool-buttons { display: flex; flex-direction: column; gap: 8px; }
-        .tool-btn { background-color: #0ea5e9; padding: 10px; font-size: 0.9rem; margin: 0; }
+        .tool-btn { background-color: #0ea5e9; padding: 10px; font-size: 0.9rem; margin: 0; color: white; border: none; border-radius: 6px; cursor: pointer; }
         .tool-btn:hover { background-color: #0284c7; }
-
-        /* Màn hình kết thúc */
-        .congrats-icon { font-size: 4rem; margin-bottom: 15px; }
     </style>
 </head>
 <body>
@@ -196,19 +184,19 @@
 <div class="game-container">
     <!-- MÀN HÌNH CHÀO MỪNG -->
     <div id="screen-welcome" class="screen active">
-        <h1>⬡ Thám tử không gian</h1>
+        <h1>Thám tử không gian</h1>
         <h2>Khám phá Hình lục giác đều</h2>
-        <p>Chào các em! Hãy cùng ghép tam giác đều thành hình lục giác (HD5), khám phá các yếu tố và đường chéo chính (HD6) nhé!</p>
+        <p>Cùng ghép tam giác đều thành hình lục giác (HD5) và khám phá các đường chéo chính (HD6)!</p>
         <button class="btn" onclick="goToScreen('screen-hd5')">Bắt đầu thám hiểm</button>
     </div>
 
-    <!-- MÀN HÌNH 1: HD5 - GHÉP HÌNH LỤC GIÁC TỪ 6 TAM GIÁC ĐỀU -->
+    <!-- MÀN HÌNH 1: HD5 -->
     <div id="screen-hd5" class="screen">
-        <h2>Nhiệm vụ 1: Xưởng lắp ráp hình (HD5)</h2>
-        <p>Nhấp lần lượt vào <strong>6 hình tam giác đều</strong> ở bên trái để lắp đầy vào khuôn hình lục giác đều bên phải!</p>
+        <h2>Nhiệm vụ 1: Lắp ráp hình (HD5)</h2>
+        <p>Nhấp lần lượt vào <strong>6 hình tam giác</strong> bên trái để lắp đầy khung bên phải!</p>
         
         <div class="puzzle-area">
-            <div class="triangle-pieces" id="pieces-container">
+            <div class="triangle-pieces">
                 <div class="piece" onclick="clickPiece(this)">Tam giác 1</div>
                 <div class="piece" onclick="clickPiece(this)">Tam giác 2</div>
                 <div class="piece" onclick="clickPiece(this)">Tam giác 3</div>
@@ -218,34 +206,34 @@
             </div>
             
             <div class="hex-target" id="hex-target-box">
-                <span id="target-text" style="color: #64748b; font-weight: bold;">Khuôn Lục Giác (0/6)</span>
+                <span id="target-text" style="font-weight: bold; color: #64748b;">Khung trống (0/6)</span>
             </div>
         </div>
 
-        <button id="btn-next-hd6" class="btn" style="display: none;" onclick="goToScreen('screen-hd6')">Tiến vào phòng phân tích ➔</button>
+        <button id="btn-next-hd6" class="btn" style="display: none;" onclick="goToScreen('screen-hd6')">Tiếp tục sang phòng phân tích ➔</button>
     </div>
 
-    <!-- MÀN HÌNH 2: HD6 - KHÁM PHÁ CẠNH, GÓC, ĐƯỜNG CHÉO CHÍNH -->
+    <!-- MÀN HÌNH 2: HD6 -->
     <div id="screen-hd6" class="screen">
-        <h2>Nhiệm vụ 2: Phòng phân tích hình lục giác đều ABCDEF</h2>
-        <p>Khám phá các tính chất về cạnh, góc và 3 đường chéo chính của hình.</p>
+        <h2>Nhiệm vụ 2: Phòng phân tích ABCDEF (HD6)</h2>
+        <p>Kiểm tra các thuộc tính cạnh, góc và đường chéo chính.</p>
 
         <div class="lab-container">
             <div class="hex-workspace">
                 <div class="hex-shape">
+                    ABCDEF
                     <div id="d-ad" class="diagonal-line"></div>
                     <div id="d-be" class="diagonal-line"></div>
                     <div id="d-cf" class="diagonal-line"></div>
                     <div id="d-cf2" class="diagonal-line"></div>
-                    <span style="font-size: 1.5rem; font-weight: bold; color: #0284c7; z-index: 2;">ABCDEF</span>
                 </div>
             </div>
 
             <div class="controls-panel">
                 <div class="tool-buttons">
-                    <button class="btn tool-btn" onclick="checkHexEdges()">📏 Kiểm tra Sáu cạnh</button>
-                    <button class="btn tool-btn" onclick="checkHexAngles()">📐 Kiểm tra Sáu góc (120°)</button>
-                    <button class="btn tool-btn" onclick="checkHexDiagonals()">❌ Kẻ 3 đường chéo chính</button>
+                    <button class="tool-btn" onclick="checkHexEdges()">📏 Kiểm tra Sáu cạnh</button>
+                    <button class="tool-btn" onclick="checkHexAngles()">📐 Kiểm tra Sáu góc (120 độ)</button>
+                    <button class="tool-btn" onclick="checkHexDiagonals()">❌ Kẻ Đường chéo chính</button>
                 </div>
 
                 <div class="observation-box">
@@ -257,20 +245,19 @@
             </div>
         </div>
 
-        <button id="btn-finish" class="btn" style="display: none;" onclick="goToScreen('screen-end')">Hoàn thành xuất sắc 🎉</button>
+        <button id="btn-finish" class="btn" style="display: none;" onclick="goToScreen('screen-end')">Hoàn thành bài học 🎉</button>
     </div>
 
-    <!-- MÀN HÌNH 3: KẾT THÚC / VINH DANH -->
+    <!-- MÀN HÌNH 3: KẾT THÚC -->
     <div id="screen-end" class="screen">
-        <div class="congrats-icon">🌟</div>
-        <h1>Chúc mừng bạn đã hoàn thành xuất sắc!</h1>
-        <p>Em đã nắm vững toàn bộ kiến thức trọng tâm về <strong>Hình lục giác đều</strong>:</p>
+        <h1>Chúc mừng bạn đã hoàn thành!</h1>
+        <p>Em đã nắm vững các nội dung trọng tâm:</p>
         <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 15px; border-radius: 8px; text-align: left; margin-bottom: 20px; width: 85%;">
-            <strong>Nhận xét chung: Hình lục giác đều có:</strong>
+            <strong>Nhận xét chung về Hình lục giác đều:</strong>
             <ul>
                 <li>Sáu cạnh bằng nhau.</li>
                 <li>Sáu góc bằng nhau, mỗi góc bằng 120°.</li>
-                <li>Ba đường chéo chính bằng nhau (AD, BE, CF).</li>
+                <li>Ba đường chéo chính bằng nhau.</li>
             </ul>
         </div>
         <button class="btn" onclick="location.reload()">Chơi lại từ đầu</button>
@@ -283,7 +270,6 @@
         document.getElementById(screenId).classList.add('active');
     }
 
-    // Logic Màn hình 1 (HD5)
     let assembledCount = 0;
     function clickPiece(element) {
         element.classList.add('used');
@@ -293,34 +279,33 @@
         if (assembledCount === 6) {
             document.getElementById('hex-target-box').style.background = '#d1fae5';
             document.getElementById('hex-target-box').style.borderColor = '#10b981';
-            document.getElementById('target-text').innerText = '⬡ Hoàn thành Lục giác đều!';
+            document.getElementById('target-text').innerText = 'Hoàn thành lục giác!';
             document.getElementById('target-text').style.color = '#047857';
             document.getElementById('btn-next-hd6').style.display = 'block';
         }
     }
 
-    // Logic Màn hình 2 (HD6)
     let checkedEdges = false, checkedAngles = false, checkedDiagonals = false;
 
     function updateObservationList() {
         const list = document.getElementById('observation-list');
         list.innerHTML = '';
         if (checkedEdges) list.innerHTML += '<li>✓ Sáu cạnh bằng nhau.</li>';
-        if (checkedAngles) list.innerHTML += '<li>✓ Sáu góc bằng nhau, mỗi góc bằng 120°.</li>';
-        if (checkedDiagonals) list.innerHTML += '<li>✓ Ba đường chéo chính bằng nhau (AD, BE, CF).</li>';
+        if (checkedAngles) list.innerHTML += '<li>✓ Sáu góc bằng nhau (120 độ).</li>';
+        if (checkedDiagonals) list.innerHTML += '<li>✓ Ba đường chéo chính bằng nhau.</li>';
         if (!checkedEdges && !checkedAngles && !checkedDiagonals) list.innerHTML = '<li>Hãy chọn các nút phân tích phía trên!</li>';
         if (checkedEdges && checkedAngles && checkedDiagonals) document.getElementById('btn-finish').style.display = 'block';
     }
 
     function checkHexEdges() {
         checkedEdges = true;
-        alert('Kết quả: Sáu cạnh của hình lục giác đều có độ dài hoàn toàn bằng nhau!');
+        alert('Kết quả: Sáu cạnh bằng nhau!');
         updateObservationList();
     }
 
     function checkHexAngles() {
         checkedAngles = true;
-        alert('Kết quả: Sáu góc bằng nhau và số đo mỗi góc là 120°!');
+        alert('Kết quả: Sáu góc bằng nhau và mỗi góc bằng 120 độ!');
         updateObservationList();
     }
 
@@ -330,7 +315,7 @@
         document.getElementById('d-be').style.display = 'block';
         document.getElementById('d-cf').style.display = 'block';
         document.getElementById('d-cf2').style.display = 'block';
-        alert('Kết quả: Đã vẽ 3 đường chéo chính (AD, BE, CF) cắt nhau tại tâm và chúng có độ dài bằng nhau!');
+        alert('Kết quả: Đã kẻ các đường chéo chính bằng nhau!');
         updateObservationList();
     }
 </script>
